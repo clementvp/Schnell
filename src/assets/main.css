@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Inter', sans-serif;
+}
+
+html, body, #app {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: #f1f1ef; /* light */
+}
+
+body.dark,
+html.dark body {
+    background-color: #191917; /* dark — surface.950 Notion */
+}
