@@ -18,3 +18,17 @@ body.dark,
 html.dark body {
     background-color: #191917; /* dark — surface.950 Notion */
 }
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--p-surface-950);
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 0.95rem;
+    color: var(--p-surface-500);
+    margin: 0;
+}

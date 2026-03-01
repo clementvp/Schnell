@@ -1,7 +1,7 @@
 <template>
   <div class="generate-form">
-    <h1 class="title">Génère une image</h1>
-    <p class="subtitle">Décris ce que tu veux voir, Schnell s'occupe du reste.</p>
+    <h1 class="page-title">Générez une image</h1>
+    <p class="page-subtitle">Décrivez ce que vous souhaitez voir, Schnell s'occupe du reste.</p>
 
     <Textarea
       v-model="prompt"
@@ -24,9 +24,16 @@
       @click="emit('submit')"
     />
 
-    <div v-if="error" class="error-msg">
-      <i class="pi pi-exclamation-triangle" />
-      {{ error }}
+    <div v-if="error" class="error-banner">
+      <div class="error-banner-header">
+        <i class="pi pi-times-circle" />
+        <span class="error-banner-title">Une erreur est survenue</span>
+      </div>
+      <p class="error-banner-detail">{{ error.detail }}</p>
+      <RouterLink v-if="error.showSettings" to="/settings" class="error-banner-link">
+        <i class="pi pi-cog" />
+        Vérifier les paramètres
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -34,12 +41,13 @@
 <script setup lang="ts">
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
+import type { GenerationError } from '../composables/useImageGeneration'
 
 const prompt = defineModel<string>({ required: true })
 
 defineProps<{
   loading: boolean
-  error: string | null
+  error: GenerationError | null
 }>()
 
 const emit = defineEmits<{
@@ -56,20 +64,6 @@ const emit = defineEmits<{
   max-width: 600px;
 }
 
-.title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--p-surface-950);
-  margin: 0;
-}
-
-.subtitle {
-  font-size: 0.95rem;
-  color: var(--p-surface-500);
-  margin: 0;
-}
-
 .prompt-input {
   width: 100%;
   resize: none;
@@ -79,11 +73,53 @@ const emit = defineEmits<{
   align-self: flex-end;
 }
 
-.error-msg {
+.error-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  border-radius: 8px;
+  background: var(--p-red-50);
+  border: 1px solid var(--p-red-200);
+}
+
+.error-banner-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--p-red-500);
+  color: var(--p-red-700);
+}
+
+.error-banner-header .pi {
+  font-size: 1rem;
+}
+
+.error-banner-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.error-banner-detail {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--p-red-600);
+  padding-left: 1.5rem;
+}
+
+.error-banner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+  padding-left: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--p-red-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.error-banner-link:hover {
+  color: var(--p-red-900);
 }
 </style>

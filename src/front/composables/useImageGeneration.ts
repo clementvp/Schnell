@@ -1,14 +1,45 @@
 import { ref } from 'vue'
-import { useToast } from 'primevue/usetoast'
+
+export interface GenerationError {
+  detail: string
+  showSettings: boolean
+}
+
+function parseError(e: unknown): GenerationError {
+  const msg = e instanceof Error ? e.message : ''
+
+  if (msg.includes('401') || msg.includes('403')) {
+    return {
+      detail: 'Token invalide ou expiré. Vérifiez vos paramètres.',
+      showSettings: true,
+    }
+  }
+  if (/Erreur 5\d\d/.test(msg)) {
+    return {
+      detail: 'Le service Cloudflare est temporairement indisponible.',
+      showSettings: false,
+    }
+  }
+  if (msg.toLowerCase().includes('fetch') || msg.toLowerCase().includes('network')) {
+    return {
+      detail: "L'endpoint est inaccessible. Vérifiez l'URL dans vos paramètres.",
+      showSettings: true,
+    }
+  }
+  if (msg.includes('paramètres')) {
+    return { detail: msg, showSettings: true }
+  }
+  return {
+    detail: 'Une erreur inattendue est survenue. Veuillez réessayer.',
+    showSettings: false,
+  }
+}
 
 export function useImageGeneration() {
-  const toast = useToast()
-
   const prompt = ref('')
   const loading = ref(false)
-  const saving = ref(false)
   const imageSrc = ref<string | null>(null)
-  const error = ref<string | null>(null)
+  const error = ref<GenerationError | null>(null)
   const modalVisible = ref(false)
 
   async function generate() {
@@ -18,32 +49,16 @@ export function useImageGeneration() {
     error.value = null
 
     try {
-      imageSrc.value = await window.api.generateImage(prompt.value.trim())
+      const result = await window.api.generateImage(prompt.value.trim())
+      imageSrc.value = result
       modalVisible.value = true
+      window.api.gallery.save(result, prompt.value.trim()).catch(console.error)
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Une erreur est survenue.'
+      error.value = parseError(e)
     } finally {
       loading.value = false
     }
   }
 
-  async function save() {
-    if (!imageSrc.value) return
-
-    saving.value = true
-    const saved = await window.api.saveImage(imageSrc.value)
-    saving.value = false
-
-    if (saved) {
-      modalVisible.value = false
-      toast.add({
-        severity: 'success',
-        summary: 'Image sauvegardée',
-        detail: 'Le fichier a bien été enregistré.',
-        life: 3000,
-      })
-    }
-  }
-
-  return { prompt, loading, saving, imageSrc, error, modalVisible, generate, save }
+  return { prompt, loading, imageSrc, error, modalVisible, generate }
 }

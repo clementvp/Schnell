@@ -7,35 +7,21 @@
     :style="{ width: '640px' }"
   >
     <template #header>
-      <span class="modal-title">Image générée</span>
+      <span class="modal-title">{{ title }}</span>
     </template>
 
     <img :src="imageSrc" alt="Image générée" class="result-img" />
-
-    <template #footer>
-      <Button
-        label="Télécharger"
-        icon="pi pi-download"
-        :loading="saving"
-        @click="emit('save')"
-      />
-    </template>
   </Dialog>
 </template>
 
 <script setup lang="ts">
 import Dialog from 'primevue/dialog'
-import Button from 'primevue/button'
 
 const visible = defineModel<boolean>('visible', { required: true })
 
 defineProps<{
   imageSrc: string
-  saving: boolean
-}>()
-
-const emit = defineEmits<{
-  save: []
+  title?: string
 }>()
 </script>
 

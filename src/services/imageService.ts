@@ -1,15 +1,16 @@
-if (!process.env.CLOUDFLARE_ENDPOINT || !process.env.CLOUDFLARE_TOKEN) {
-  throw new Error('CLOUDFLARE_ENDPOINT et CLOUDFLARE_TOKEN doivent être définis dans .env')
-}
-
-const endpoint = process.env.CLOUDFLARE_ENDPOINT as string
-const token = process.env.CLOUDFLARE_TOKEN as string
+import { getSettings } from './settingsService'
 
 export async function generateImage(prompt: string): Promise<string> {
-  const response = await fetch(endpoint, {
+  const { cloudflareEndpoint, cloudflareToken } = getSettings()
+
+  if (!cloudflareEndpoint || !cloudflareToken) {
+    throw new Error("Configure l'endpoint et le token Cloudflare dans les paramètres.")
+  }
+
+  const response = await fetch(cloudflareEndpoint, {
     method: 'POST',
     headers: {
-      Authorization: token,
+      Authorization: cloudflareToken,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ prompt }),

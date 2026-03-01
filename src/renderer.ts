@@ -4,14 +4,13 @@ import router from './front/router'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
 import Aura from '@primeuix/themes/aura'
+import { definePreset } from '@primeuix/themes'
 import 'primeicons/primeicons.css'
-import '../src/assets/main.css'
-
+import './assets/main.css'
 import '@fontsource/inter/400.css'
 import '@fontsource/inter/500.css'
 import '@fontsource/inter/600.css'
 import '@fontsource/inter/700.css'
-import { definePreset } from '@primeuix/themes'
 
 const MyPreset = definePreset(Aura, {
   semantic: {

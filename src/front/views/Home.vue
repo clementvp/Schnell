@@ -11,8 +11,7 @@
       v-if="imageSrc"
       v-model:visible="modalVisible"
       :image-src="imageSrc"
-      :saving="saving"
-      @save="save"
+      title="Image générée"
     />
   </div>
 </template>
@@ -22,8 +21,7 @@ import GenerateForm from '../components/GenerateForm.vue'
 import ImageModal from '../components/ImageModal.vue'
 import { useImageGeneration } from '../composables/useImageGeneration'
 
-const { prompt, loading, saving, imageSrc, error, modalVisible, generate, save } =
-  useImageGeneration()
+const { prompt, loading, imageSrc, error, modalVisible, generate } = useImageGeneration()
 </script>
 
 <style scoped>
