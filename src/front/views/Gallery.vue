@@ -36,6 +36,7 @@
       v-if="selectedEntry && images[selectedEntry.id]"
       v-model:visible="modalVisible"
       :images="[images[selectedEntry.id]]"
+      :show-print="true"
     />
   </div>
 </template>

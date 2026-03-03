@@ -41,7 +41,7 @@ async function writeHistory(entries: GalleryEntry[]): Promise<void> {
 export async function saveToGallery(base64: string, prompt: string): Promise<GalleryEntry> {
   await ensureDir()
 
-  const id = Date.now().toString()
+  const id = crypto.randomUUID()
   const filename = `schnell-${id}.jpg`
   const filePath = path.join(getGalleryDir(), filename)
 

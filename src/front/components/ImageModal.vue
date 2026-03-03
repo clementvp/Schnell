@@ -13,8 +13,8 @@
     <div :class="['image-container', images.length > 1 && 'image-container--grid']">
       <div v-for="(src, i) in images" :key="i" class="image-wrap">
         <img :src="src" alt="Image générée" class="result-img" />
-        <button class="print-btn" :disabled="printing.has(i)" @click="print(src, i)">
-          <i :class="printing.has(i) ? 'pi pi-spin pi-spinner' : 'pi pi-print'" />
+        <button v-if="showPrint" class="print-btn" :disabled="printing" @click="print(src)">
+          <i :class="printing ? 'pi pi-spin pi-spinner' : 'pi pi-print'" />
         </button>
       </div>
     </div>
@@ -30,6 +30,7 @@
 
   const props = defineProps<{
     images: string[]
+    showPrint?: boolean
   }>()
 
   const title = computed(() =>
@@ -37,16 +38,14 @@
   )
 
   const { print: doPrint } = usePrinter()
-  const printing = ref(new Set<number>())
+  const printing = ref(false)
 
-  async function print(src: string, index: number) {
-    printing.value = new Set(printing.value).add(index)
+  async function print(src: string) {
+    printing.value = true
     try {
       await doPrint(src)
     } finally {
-      const next = new Set(printing.value)
-      next.delete(index)
-      printing.value = next
+      printing.value = false
     }
   }
 </script>
