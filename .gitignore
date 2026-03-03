@@ -101,3 +101,9 @@ out/
 
 # Build output
 dist/
+
+# Icônes générées (npm run set-icon)
+build/icon.icns
+build/icon.ico
+build/icon.png
+build/icons/

@@ -10,6 +10,7 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
+    icon: './build/icon', // .icns (macOS) / .ico (Windows) / .png (Linux) — généré par npm run set-icon
     extendInfo: {
       NSBluetoothAlwaysUsageDescription: "Schnell utilise le Bluetooth pour imprimer vos images sur l'imprimante thermique MXW01.",
       NSBluetoothPeripheralUsageDescription: "Schnell utilise le Bluetooth pour imprimer vos images sur l'imprimante thermique MXW01.",
@@ -19,8 +20,8 @@ const config: ForgeConfig = {
   makers: [
     new MakerSquirrel({}),
     new MakerZIP({}, ['darwin']),
-    new MakerRpm({}),
-    new MakerDeb({}),
+    new MakerRpm({ options: { icon: './build/icon.png' } }),
+    new MakerDeb({ options: { icon: './build/icon.png' } }),
   ],
   plugins: [
     new VitePlugin({
