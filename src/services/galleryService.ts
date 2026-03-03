@@ -21,6 +21,8 @@ function getGalleryDir(): string {
 
 const historyPath = () => path.join(getGalleryDir(), 'history.json')
 
+let historyQueue = Promise.resolve()
+
 async function ensureDir(): Promise<void> {
   await fs.mkdir(getGalleryDir(), { recursive: true })
 }
@@ -50,9 +52,11 @@ export async function saveToGallery(base64: string, prompt: string): Promise<Gal
 
   const entry: GalleryEntry = { id, filename, prompt, createdAt: new Date().toISOString() }
 
-  const history = await readHistory()
-  history.unshift(entry)
-  await writeHistory(history)
+  await (historyQueue = historyQueue.then(async () => {
+    const history = await readHistory()
+    history.unshift(entry)
+    await writeHistory(history)
+  }))
 
   return entry
 }

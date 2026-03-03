@@ -57,6 +57,18 @@
     color: var(--p-surface-950);
   }
 
+  .image-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .image-container--grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
   .image-wrap {
     position: relative;
     border-radius: 8px;
