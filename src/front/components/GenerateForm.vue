@@ -13,16 +13,26 @@
       @keydown.meta.enter="emit('submit')"
     />
 
-    <Button
-      label="Générer"
-      icon="pi pi-sparkles"
-      iconPos="right"
-      :loading="loading"
-      :disabled="!prompt.trim()"
-      size="large"
-      class="submit-btn"
-      @click="emit('submit')"
-    />
+    <div class="form-footer">
+      <div class="iterations-field">
+        <label class="iterations-label">Images</label>
+        <Select
+          v-model="iterations"
+          :options="[1, 2, 3, 4]"
+          class="iterations-select"
+        />
+      </div>
+
+      <Button
+        :label="iterations === 1 ? 'Générer' : `Générer ${iterations}`"
+        icon="pi pi-sparkles"
+        iconPos="right"
+        :loading="loading"
+        :disabled="!prompt.trim()"
+        size="large"
+        @click="emit('submit')"
+      />
+    </div>
 
     <div v-if="error" class="error-banner">
       <div class="error-banner-header">
@@ -41,9 +51,11 @@
 <script setup lang="ts">
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
+import Select from 'primevue/select'
 import type { GenerationError } from '../composables/useImageGeneration'
 
 const prompt = defineModel<string>({ required: true })
+const iterations = defineModel<number>('iterations', { required: true })
 
 defineProps<{
   loading: boolean
@@ -69,8 +81,28 @@ const emit = defineEmits<{
   resize: none;
 }
 
-.submit-btn {
-  align-self: flex-end;
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.iterations-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.iterations-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--p-surface-600);
+  white-space: nowrap;
+}
+
+.iterations-select {
+  width: 80px;
 }
 
 .error-banner {

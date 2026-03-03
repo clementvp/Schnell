@@ -37,8 +37,9 @@ function parseError(e: unknown): GenerationError {
 
 export function useImageGeneration() {
   const prompt = ref('')
+  const iterations = ref(1)
   const loading = ref(false)
-  const imageSrc = ref<string | null>(null)
+  const images = ref<string[]>([])
   const error = ref<GenerationError | null>(null)
   const modalVisible = ref(false)
 
@@ -49,10 +50,16 @@ export function useImageGeneration() {
     error.value = null
 
     try {
-      const result = await window.api.generateImage(prompt.value.trim())
-      imageSrc.value = result
+      const results = await Promise.all(
+        Array.from({ length: iterations.value }, () =>
+          window.api.generateImage(prompt.value.trim()),
+        ),
+      )
+      images.value = results
       modalVisible.value = true
-      window.api.gallery.save(result, prompt.value.trim()).catch(console.error)
+      results.forEach((img) =>
+        window.api.gallery.save(img, prompt.value.trim()).catch(console.error),
+      )
     } catch (e: unknown) {
       error.value = parseError(e)
     } finally {
@@ -60,5 +67,5 @@ export function useImageGeneration() {
     }
   }
 
-  return { prompt, loading, imageSrc, error, modalVisible, generate }
+  return { prompt, iterations, loading, images, error, modalVisible, generate }
 }

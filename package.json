@@ -47,6 +47,7 @@
     "@primeuix/themes": "^2.0.3",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^7.0.3",
+    "mxw01-thermal-printer": "^0.1.0",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.4",
     "vue": "^3.5.29",

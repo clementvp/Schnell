@@ -33,10 +33,9 @@
     </div>
 
     <ImageModal
-      v-if="selectedEntry"
+      v-if="selectedEntry && images[selectedEntry.id]"
       v-model:visible="modalVisible"
-      :image-src="images[selectedEntry.id]"
-      :title="selectedEntry.prompt"
+      :images="[images[selectedEntry.id]]"
     />
   </div>
 </template>

@@ -2,16 +2,16 @@
   <div class="home">
     <GenerateForm
       v-model="prompt"
+      v-model:iterations="iterations"
       :loading="loading"
       :error="error"
       @submit="generate"
     />
 
     <ImageModal
-      v-if="imageSrc"
+      v-if="images.length"
       v-model:visible="modalVisible"
-      :image-src="imageSrc"
-      title="Image générée"
+      :images="images"
     />
   </div>
 </template>
@@ -21,7 +21,7 @@ import GenerateForm from '../components/GenerateForm.vue'
 import ImageModal from '../components/ImageModal.vue'
 import { useImageGeneration } from '../composables/useImageGeneration'
 
-const { prompt, loading, imageSrc, error, modalVisible, generate } = useImageGeneration()
+const { prompt, iterations, loading, images, error, modalVisible, generate } = useImageGeneration()
 </script>
 
 <style scoped>

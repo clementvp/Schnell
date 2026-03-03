@@ -1,11 +1,26 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'node:path'
 import started from 'electron-squirrel-startup'
 import { registerHandlers } from './ipc/handlers'
 import { getWindowState, trackWindowState } from './services/windowStateService'
 
+app.commandLine.appendSwitch('enable-experimental-web-platform-features')
+
 if (started) {
   app.quit()
+}
+
+let pendingBluetoothCallback: ((deviceId: string) => void) | null = null
+
+function registerBluetoothHandlers(mainWindow: BrowserWindow): void {
+  // select-bluetooth-device est un événement webContents (pas session).
+  // event.preventDefault() est obligatoire pour prendre la main sur la sélection.
+  mainWindow.webContents.on('select-bluetooth-device', (event, deviceList, callback) => {
+    event.preventDefault()
+    pendingBluetoothCallback = callback
+    const filtered = deviceList.filter((d) => d.deviceName.toLowerCase().includes('mxw'))
+    mainWindow.webContents.send('bluetooth:devices', filtered)
+  })
 }
 
 function createWindow(): void {
@@ -21,6 +36,7 @@ function createWindow(): void {
   })
 
   trackWindowState(mainWindow)
+  registerBluetoothHandlers(mainWindow)
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL)
@@ -31,6 +47,12 @@ function createWindow(): void {
 
 app.on('ready', () => {
   registerHandlers()
+
+  ipcMain.handle('bluetooth:select', (_event, deviceId: string) => {
+    pendingBluetoothCallback?.(deviceId)
+    pendingBluetoothCallback = null
+  })
+
   createWindow()
 })
 
