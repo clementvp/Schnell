@@ -26,19 +26,6 @@ Application desktop de génération d'images par IA. Un prompt suffit — Schnel
 npm install
 ```
 
-Copier le fichier d'exemple et renseigner les valeurs :
-
-```bash
-cp .env.example .env
-```
-
-```env
-CLOUDFLARE_ENDPOINT=https://<worker>.workers.dev/
-CLOUDFLARE_TOKEN=<token>
-```
-
-> `.env` est ignoré par git et ne doit jamais être commité.
-
 ## Lancer en développement
 
 ```bash
@@ -76,7 +63,7 @@ src/
     ├── components/
     │   ├── AppHeader.vue        # Navigation
     │   ├── GenerateForm.vue     # Formulaire prompt + sélecteur d'itérations
-    │   ├── ImageModal.vue       # Modale résultat (grille si N images) + bouton print
+    │   ├── ImageModal.vue       # Modale résultat (grille si N images) + bouton print (galerie uniquement)
     │   └── BluetoothPicker.vue  # Picker de device BLE (s'ouvre au moment du print)
     ├── composables/
     │   ├── useImageGeneration.ts  # Logique de génération (prompt, N itérations parallèles)
@@ -91,7 +78,8 @@ src/
 
 - **Génération** — prompt libre, génération de 1 à 4 images en parallèle (Ctrl/Cmd+Entrée)
 - **Galerie** — toutes les images générées sont sauvegardées localement et consultables
-- **Impression** — impression directe sur imprimante thermique MXW01 via Bluetooth
+- **Impression** — impression directe depuis la galerie sur imprimante thermique MXW01 via Bluetooth
+- **Paramètres** — endpoint Cloudflare et token configurables depuis l'interface (stockés via electron-store)
 
 ---
 
