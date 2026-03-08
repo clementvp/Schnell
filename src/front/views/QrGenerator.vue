@@ -42,21 +42,13 @@ import { ref, nextTick } from 'vue'
 import QRCode from 'qrcode'
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
-import { usePrinter, type DitherAlgorithm } from '../composables/usePrinter'
+import { usePrinter, ditherOptions, type DitherAlgorithm } from '../composables/usePrinter'
 
 const text = ref('')
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const hasQr = ref(false)
 const printing = ref(false)
 const selectedDither = ref<DitherAlgorithm>('steinberg')
-
-const ditherOptions: { label: string; value: DitherAlgorithm }[] = [
-  { label: 'Floyd-Steinberg', value: 'steinberg' },
-  { label: 'Threshold', value: 'threshold' },
-  { label: 'Bayer', value: 'bayer' },
-  { label: 'Atkinson', value: 'atkinson' },
-  { label: 'Pattern', value: 'pattern' },
-]
 
 const { print: doPrint } = usePrinter()
 

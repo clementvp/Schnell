@@ -46,7 +46,7 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import Dialog from 'primevue/dialog'
-  import { usePrinter, type DitherAlgorithm } from '../composables/usePrinter'
+  import { usePrinter, ditherOptions, type DitherAlgorithm } from '../composables/usePrinter'
 
   const visible = defineModel<boolean>('visible', { required: true })
 
@@ -59,13 +59,6 @@
     props.images.length > 1 ? `${props.images.length} images générées` : 'Image générée'
   )
 
-  const ditherOptions: { label: string; value: DitherAlgorithm }[] = [
-    { label: 'Floyd-Steinberg', value: 'steinberg' },
-    { label: 'Threshold', value: 'threshold' },
-    { label: 'Bayer', value: 'bayer' },
-    { label: 'Atkinson', value: 'atkinson' },
-    { label: 'Pattern', value: 'pattern' },
-  ]
   const selectedDither = ref<DitherAlgorithm>('steinberg')
   const pendingIndex = ref<number | null>(null)
   const printingIndex = ref<number | null>(null)

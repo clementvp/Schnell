@@ -23,6 +23,14 @@ function toImageData(base64: string): Promise<ImageData> {
 
 export type DitherAlgorithm = 'threshold' | 'steinberg' | 'bayer' | 'atkinson' | 'pattern'
 
+export const ditherOptions: { label: string; value: DitherAlgorithm }[] = [
+  { label: 'Floyd-Steinberg', value: 'steinberg' },
+  { label: 'Threshold', value: 'threshold' },
+  { label: 'Bayer', value: 'bayer' },
+  { label: 'Atkinson', value: 'atkinson' },
+  { label: 'Pattern', value: 'pattern' },
+]
+
 export function usePrinter() {
   async function print(base64: string, dither: DitherAlgorithm = 'steinberg'): Promise<void> {
     const imageData = await toImageData(base64)
