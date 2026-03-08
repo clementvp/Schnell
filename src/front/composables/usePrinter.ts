@@ -21,13 +21,15 @@ function toImageData(base64: string): Promise<ImageData> {
   })
 }
 
+export type DitherAlgorithm = 'threshold' | 'steinberg' | 'bayer' | 'atkinson' | 'pattern'
+
 export function usePrinter() {
-  async function print(base64: string): Promise<void> {
+  async function print(base64: string, dither: DitherAlgorithm = 'steinberg'): Promise<void> {
     const imageData = await toImageData(base64)
     const adapter = new WebBluetoothAdapter()
     const printer = new ThermalPrinterClient(adapter)
     await printer.connect()
-    await printer.print(imageData, { dither: 'steinberg', brightness: 128, intensity: 93 })
+    await printer.print(imageData, { dither, brightness: 128, intensity: 93 })
     await printer.disconnect()
   }
 
