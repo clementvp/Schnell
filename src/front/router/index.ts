@@ -9,6 +9,7 @@ const router = createRouter({
     { path: '/', component: Home },
     { path: '/gallery', component: Gallery },
     { path: '/settings', component: Settings },
+    { path: '/qr', component: () => import('../views/QrGenerator.vue') },
   ],
 })
 

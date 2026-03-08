@@ -30,6 +30,7 @@
     "@electron-forge/plugin-vite": "^7.11.1",
     "@electron/fuses": "^1.8.0",
     "@types/electron-squirrel-startup": "^1.0.2",
+    "@types/qrcode": "^1.5.6",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
     "@vitejs/plugin-vue": "^6.0.4",
@@ -51,6 +52,7 @@
     "mxw01-thermal-printer": "^0.1.0",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.4",
+    "qrcode": "^1.5.4",
     "vue": "^3.5.29",
     "vue-router": "^4.6.4"
   }
