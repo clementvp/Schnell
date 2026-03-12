@@ -20,6 +20,15 @@
           exact-active-class="nav-link--active"
           @click="open = false"
         >
+          <i class="pi pi-pen-to-square" />
+          Éditeur
+        </RouterLink>
+        <RouterLink
+          to="/generate"
+          class="nav-link"
+          active-class="nav-link--active"
+          @click="open = false"
+        >
           <i class="pi pi-sparkles" />
           Générer
         </RouterLink>
@@ -146,5 +155,11 @@
   .nav-link:hover {
     background: var(--p-surface-100);
     color: var(--p-surface-900);
+  }
+
+  .nav-link--active {
+    background: var(--p-surface-200);
+    color: var(--p-surface-950);
+    font-weight: 600;
   }
 </style>

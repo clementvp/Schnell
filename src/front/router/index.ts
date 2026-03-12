@@ -1,20 +1,23 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Editor from '../views/Editor.vue'
 import Gallery from '../views/Gallery.vue'
 import Settings from '../views/Settings.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
-    { path: '/', component: Home },
+    { path: '/', component: Editor },
+    { path: '/generate', component: () => import('../views/Home.vue') },
     { path: '/gallery', component: Gallery },
     { path: '/settings', component: Settings },
     { path: '/qr', component: () => import('../views/QrGenerator.vue') },
   ],
 })
 
+const CLOUDFLARE_FREE = ['/', '/gallery', '/settings', '/qr']
+
 router.beforeEach(async (to) => {
-  if (to.path === '/settings') return true
+  if (CLOUDFLARE_FREE.includes(to.path)) return true
   const settings = await window.api.settings.get()
   if (!settings.cloudflareEndpoint || !settings.cloudflareToken) {
     return '/settings'
