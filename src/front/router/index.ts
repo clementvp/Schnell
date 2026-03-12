@@ -14,10 +14,10 @@ const router = createRouter({
   ],
 })
 
-const CLOUDFLARE_FREE = ['/', '/gallery', '/settings', '/qr']
+const PUBLIC_ROUTES = ['/', '/gallery', '/settings', '/qr']
 
 router.beforeEach(async (to) => {
-  if (CLOUDFLARE_FREE.includes(to.path)) return true
+  if (PUBLIC_ROUTES.includes(to.path)) return true
   const settings = await window.api.settings.get()
   if (!settings.cloudflareEndpoint || !settings.cloudflareToken) {
     return '/settings'

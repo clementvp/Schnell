@@ -53,17 +53,23 @@ const modalVisible = ref(false)
 const selectedEntry = ref<GalleryEntry | null>(null)
 
 onMounted(async () => {
-  entries.value = await window.api.gallery.list()
-  loading.value = false
-  loadImages()
+  try {
+    entries.value = await window.api.gallery.list()
+    loadImages()
+  } finally {
+    loading.value = false
+  }
 })
 
 function loadImages(): void {
-  Promise.all(
-    entries.value.map(async (entry) => {
-      images.value[entry.id] = await window.api.gallery.getImage(entry.filename)
-    }),
-  )
+  for (const entry of entries.value) {
+    window.api.gallery
+      .getImage(entry.filename)
+      .then((data) => {
+        images.value[entry.id] = data
+      })
+      .catch(() => console.error(`[Gallery] Failed to load image ${entry.id}`))
+  }
 }
 
 function open(entry: GalleryEntry): void {
