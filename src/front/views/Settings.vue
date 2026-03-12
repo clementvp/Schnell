@@ -93,8 +93,11 @@ async function save() {
   gap: 1.5rem;
   width: 100%;
   max-width: 480px;
-  margin: 3rem auto 0;
-  padding: 0 2rem;
+  height: 100%;
+  overflow-y: auto;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  box-sizing: border-box;
 }
 
 .setup-banner {

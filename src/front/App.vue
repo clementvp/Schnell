@@ -21,10 +21,11 @@ import BluetoothPicker from './components/BluetoothPicker.vue'
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .app-content {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
 }
 </style>

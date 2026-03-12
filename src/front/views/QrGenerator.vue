@@ -79,8 +79,11 @@ async function handlePrint() {
 <style scoped>
 .qr-page {
   max-width: 480px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  height: 100%;
+  overflow-y: auto;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

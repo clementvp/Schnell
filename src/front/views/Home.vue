@@ -29,7 +29,9 @@ const { prompt, iterations, loading, images, error, modalVisible, generate } = u
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
   padding: 2rem;
+  box-sizing: border-box;
 }
 </style>
